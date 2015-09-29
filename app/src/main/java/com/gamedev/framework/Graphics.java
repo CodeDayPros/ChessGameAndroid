@@ -13,7 +13,7 @@ public interface Graphics {
 
     public void drawLine(int x, int y, int x2, int y2, int color);
 
-    public void drawRect(int x, int y, int width, int height, int color);
+    public void drawRect(int x, int y, int width, int height, int color, Paint.Style style);
 
     public void drawImage(Image image, int x, int y, int srcX, int srcY,
                           int srcWidth, int srcHeight);
