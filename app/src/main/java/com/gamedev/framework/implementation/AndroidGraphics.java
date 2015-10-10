@@ -28,7 +28,7 @@ public class AndroidGraphics implements Graphics {
         this.assets = assets;
         this.frameBuffer = frameBuffer;
         this.canvas = new Canvas(frameBuffer);
-        this.paint = new Paint();
+        this.paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     }
 
     @Override
@@ -81,7 +81,6 @@ public class AndroidGraphics implements Graphics {
                 (color & 0xff));
     }
 
-
     @Override
     public void drawLine(int x, int y, int x2, int y2, int color) {
         paint.setColor(color);
@@ -131,7 +130,7 @@ public class AndroidGraphics implements Graphics {
         canvas.drawBitmap(((AndroidImage)Image).bitmap, x, y, null);
     }
 
-    public void drawScaledImage(Image Image, int x, int y, int width, int height, int srcX, int srcY, int srcWidth, int srcHeight){
+    public void drawScaledImage(Image Image, int x, int y, int width, int height, int srcX, int srcY, int srcWidth, int srcHeight) {
 
 
         srcRect.left = srcX;
@@ -144,7 +143,6 @@ public class AndroidGraphics implements Graphics {
         dstRect.top = y;
         dstRect.right = x + width;
         dstRect.bottom = y + height;
-
 
 
         canvas.drawBitmap(((AndroidImage) Image).bitmap, srcRect, dstRect, null);

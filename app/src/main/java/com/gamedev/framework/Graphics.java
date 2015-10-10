@@ -18,6 +18,9 @@ public interface Graphics {
     public void drawImage(Image image, int x, int y, int srcX, int srcY,
                           int srcWidth, int srcHeight);
 
+    public void drawScaledImage(Image Image, int x, int y, int width, int height, int srcX,
+                                int srcY, int srcWidth, int srcHeight);
+
     public void drawImage(Image Image, int x, int y);
 
     void drawString(String text, int x, int y, Paint paint);
