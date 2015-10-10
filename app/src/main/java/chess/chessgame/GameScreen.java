@@ -11,14 +11,14 @@ public class GameScreen extends Screen
     Paint paint;
     Board board;
     LevelGenerator generator;
-
+    Graphics graphics;
     public GameScreen(Game game)
     {
         super(game);
-
+        graphics=game.getGraphics();
         paint = new Paint();
         generator = new LevelGenerator();
-        board = generator.nextLevel();
+        board = generator.nextLevel(graphics);
     }
 
     @Override
@@ -29,9 +29,7 @@ public class GameScreen extends Screen
     @Override
     public void paint(float deltaTime)
     {
-        Graphics g = game.getGraphics();
-
-        board.drawBoard(g, paint);
+        board.drawBoard(graphics, paint);
     }
 
     @Override

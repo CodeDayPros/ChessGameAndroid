@@ -2,6 +2,7 @@ package chess.chessgame;
 
 import android.graphics.Point;
 
+import com.gamedev.framework.Graphics;
 import com.gamedev.framework.Image;
 
 import java.util.List;
@@ -10,11 +11,13 @@ public abstract class Piece
 {
     private int xPos;
     private int yPos;
+    private Image image;
 
-    public Piece(int x, int y)
+    public Piece(int x, int y, Graphics g)
     {
-        xPos=x;
-        yPos=y;
+        xPos = x;
+        yPos = y;
+        image = g.newImage(getImageFileName(), Graphics.ImageFormat.ARGB4444);
     }
     public abstract String getName();
 
@@ -31,8 +34,11 @@ public abstract class Piece
         xPos=x;
         yPos=y;
     }
-    public abstract Image getImage();
+    public Image getImage()
+    {
+        return image;
+    }
+
+    public abstract String getImageFileName();
     public abstract List<Point> listOfPositions();
-
-
 }

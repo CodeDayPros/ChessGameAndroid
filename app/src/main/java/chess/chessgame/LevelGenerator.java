@@ -2,6 +2,8 @@ package chess.chessgame;
 
 import android.graphics.Point;
 
+import com.gamedev.framework.Graphics;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +20,9 @@ public class LevelGenerator
         //test level
         levelsList.add(new Level()
         {
-            public void generate(List<Piece> pieces, List<Point> finalLocations, int[][] positions)
+            public void generate(List<Piece> pieces, List<Point> finalLocations, int[][] positions, Graphics g)
             {
+                pieces.add(new Knight(0,0,g));
                 finalLocations.add(new Point(1, 2));
                 positions[4][1] = 1;
                 positions[6][0] = 1;
@@ -520,10 +523,10 @@ public class LevelGenerator
         // total of 22 levels
     }
 
-    public Board nextLevel()
+    public Board nextLevel(Graphics g)
     {
         currentLevel++;
-        return generateLevel();
+        return generateLevel(g);
     }
 
     public void setLevel(int level)
@@ -536,9 +539,9 @@ public class LevelGenerator
         return levelsList.size();
     }
 
-    public Board restartLevel()
+    public Board restartLevel(Graphics g)
     {
-        return generateLevel();
+        return generateLevel(g);
     }
 
     public int getCurrentLevel()
@@ -552,13 +555,13 @@ public class LevelGenerator
         currentLevel = 0;
     }
 
-    private Board generateLevel()
+    private Board generateLevel(Graphics g)
     {
         List<Piece> pieces = new ArrayList<Piece>();
         List<Point> finalLocations = new ArrayList<Point>();
         int[][] positions = new int[8][8];
 
-        levelsList.get(currentLevel-1).generate(pieces, finalLocations, positions);
+        levelsList.get(currentLevel-1).generate(pieces, finalLocations, positions,g);
 
         board = new Board(pieces, positions, finalLocations);
         if (pieces.size() == 1)
