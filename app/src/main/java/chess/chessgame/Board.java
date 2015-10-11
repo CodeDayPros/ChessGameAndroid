@@ -207,8 +207,7 @@ public class Board {
         for (Piece piece : pieces)
         {
             if (animationTimer < 0 || piece != selectedPiece)
-                g.drawScaledImage(piece.getImage(), piece.getX()*100, piece.getY()*100, 100, 100,
-                        0, 0, 100, 100);
+                g.drawScaledImage(piece.getImage(), piece.getX()*100, piece.getY()*100, 100, 100);
         }
 
         if (animationTimer >= 0)
@@ -216,7 +215,7 @@ public class Board {
             g.drawScaledImage(selectedPiece.getImage(),
                     (int) ((newLoc.x + (previousLoc.x - newLoc.x) * (animationTimer / 10.)) * 100 + 0.5),
                     (int) ((newLoc.y + (previousLoc.y - newLoc.y) * (animationTimer / 10.)) * 100 + 0.5),
-                    100, 100, 0, 0, 100, 100);
+                    100, 100);
             animationTimer--;
         }
     }
