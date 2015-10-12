@@ -23,6 +23,10 @@ public class LevelGenerator
             public void generate(List<Piece> pieces, List<Point> finalLocations, int[][] positions, Graphics g)
             {
                 pieces.add(new Knight(0,0,g));
+                pieces.add(new Queen(0,1,g));
+                pieces.add(new Bishop(0,2,g));
+                pieces.add(new King(0,3,g));
+                pieces.add(new Rook(0,4,g));
                 finalLocations.add(new Point(1, 2));
                 positions[4][1] = 1;
                 positions[6][0] = 1;
