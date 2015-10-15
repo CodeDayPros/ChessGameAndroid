@@ -15,13 +15,13 @@ public class GameScreen extends Screen
     Graphics graphics;
     Input input;
 
-    public GameScreen(Game game)
+    public GameScreen(Game game, Board b, LevelGenerator gen)
     {
         super(game);
         graphics=game.getGraphics();
         paint = new Paint();
-        generator = new LevelGenerator();
-        board = generator.nextLevel(graphics);
+        generator = gen;
+        board = b;
         input = game.getInput();
     }
 
