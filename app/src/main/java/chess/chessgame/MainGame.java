@@ -3,12 +3,15 @@ package chess.chessgame;
 import com.gamedev.framework.Screen;
 import com.gamedev.framework.implementation.AndroidGame;
 
-public class MainGame extends AndroidGame{
-    public static Board board;
-    public static LevelGenerator generator;
+public class MainGame extends AndroidGame
+{
+    GameScreen gameScreen;
+
     @Override
     public Screen getInitScreen()
     {
+        Board board;
+        LevelGenerator generator;
         if (MainApplication.board != null && MainApplication.generator != null)
         {
             board = MainApplication.board;
@@ -19,15 +22,15 @@ public class MainGame extends AndroidGame{
             generator = new LevelGenerator();
             board = generator.nextLevel(getGraphics());
         }
-            return new GameScreen(this, board, generator);
-
+        gameScreen = new GameScreen(this, board, generator);
+        return gameScreen;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        MainApplication.board = board;
-        MainApplication.generator = generator;
+        MainApplication.board = gameScreen.board;
+        MainApplication.generator = gameScreen.generator;
     }
 }

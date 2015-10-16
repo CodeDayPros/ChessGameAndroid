@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.widget.Button;
 
 import com.gamedev.framework.Game;
 import com.gamedev.framework.Graphics;
@@ -28,7 +27,7 @@ public class GameScreen extends Screen
 
     private enum ButtonType
     {
-        RETRY
+        RETRY, NEXT, LOSE
     }
 
     public GameScreen(Game game, Board b, LevelGenerator gen)
@@ -53,8 +52,13 @@ public class GameScreen extends Screen
         {
             switch(buttonType)
             {
+                case LOSE:
                 case RETRY:
                     board = generator.restartLevel(graphics);
+                    break;
+                case NEXT:
+                    board = generator.nextLevel(graphics);
+                    break;
             }
             buttonTimer = -1;
         }
@@ -71,8 +75,14 @@ public class GameScreen extends Screen
                 Rect buttonRect = entry.getValue();
                 if (buttonRect.contains(x, y))
                 {
-                    buttonType = entry.getKey();
-                    buttonTimer = 4;
+                    ButtonType type = entry.getKey();
+                    if ((type == ButtonType.RETRY && board.getState() == BoardState.NONE)
+                    || (type == ButtonType.NEXT && board.getState() == BoardState.WON)
+                    || (type == ButtonType.LOSE && board.getState() == BoardState.LOST))
+                    {
+                        buttonType = type;
+                        buttonTimer = 4;
+                    }
                 }
             }
             board.clickOnBoard(x, y, getOffsetX(), getOffsetY());
@@ -82,6 +92,7 @@ public class GameScreen extends Screen
     @Override
     public void paint(float deltaTime)
     {
+        graphics.drawRect(0, 0, game.getWidth(), game.getHeight(), Color.BLACK, Paint.Style.FILL); //clear window
         board.drawBoard(graphics, paint, getOffsetX(), getOffsetY());
         drawInterface();
     }
@@ -89,6 +100,9 @@ public class GameScreen extends Screen
     private void initializeButtons()
     {
         buttonRectangles.put(ButtonType.RETRY, new Rect(game.getWidth() - 290, game.getHeight() - 90, game.getWidth(), game.getHeight()));
+        Rect loseWinRect = new Rect(getOffsetX() + 250, getOffsetY() + 450, getOffsetX() + 550, getOffsetY() + 540);
+        buttonRectangles.put(ButtonType.NEXT, loseWinRect);
+        buttonRectangles.put(ButtonType.LOSE, loseWinRect);
     }
 
     private void drawInterface()
@@ -100,10 +114,40 @@ public class GameScreen extends Screen
         graphics.drawString("Level " + generator.getCurrentLevel(), 20, game.getHeight() - 30, paint);
 
         paint.setTextAlign(Paint.Align.RIGHT);
-        if (buttonType == ButtonType.RETRY && buttonTimer >= 0)
+        if (board.getState() != BoardState.NONE)
+            paint.setColor(Color.GRAY);
+        else if (buttonType == ButtonType.RETRY && buttonTimer >= 0)
             paint.setColor(Color.RED);
-        graphics.drawString("Retry Level", game.getWidth() - 20, game.getHeight() - 30, paint);
+        graphics.drawString("Retry Level", game.getWidth() - 20, game.getHeight() - 25, paint);
         graphics.drawRect(buttonRectangles.get(ButtonType.RETRY), paint.getColor(), Paint.Style.STROKE);
+
+        if (board.getState() != BoardState.NONE)
+        {
+            paint.setARGB(200, 255, 255, 255);
+            graphics.drawRect(getOffsetX() + 200, getOffsetY() + 250, 400, 300, paint.getColor(), Paint.Style.FILL);
+            paint.setTextAlign(Paint.Align.CENTER);
+            paint.setColor(Color.BLACK);
+            ButtonType type;
+            String buttonName;
+            String text;
+            if (board.getState() == BoardState.WON)
+            {
+                type = ButtonType.NEXT;
+                buttonName = "Next Level";
+                text = "You Win!";
+            }
+            else
+            {
+                type = ButtonType.LOSE;
+                buttonName = "Retry Level";
+                text = "You Lose!";
+            }
+            graphics.drawString(text, getOffsetX() + 400, getOffsetY() + 370, paint);
+            if (buttonType == type && buttonTimer >= 0)
+                paint.setColor(Color.RED);
+            graphics.drawString(buttonName, getOffsetX() + 400, getOffsetY() + 515, paint);
+            graphics.drawRect(buttonRectangles.get(type), paint.getColor(), Paint.Style.STROKE);
+        }
     }
 
     private int getOffsetX()
