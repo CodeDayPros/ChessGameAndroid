@@ -22,6 +22,9 @@ public abstract class AndroidGame extends Activity implements Game {
     Input input;
     FileIO fileIO;
     Screen screen;
+    int frameBufferWidth;
+    int frameBufferHeight;
+    boolean isPortrait;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,9 +37,9 @@ public abstract class AndroidGame extends Activity implements Game {
         int width = getWindowManager().getDefaultDisplay().getWidth();
         int height = getWindowManager().getDefaultDisplay().getHeight();
 
-        boolean isPortrait = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
-        int frameBufferWidth = isPortrait ? 800 : (int)((float)width / height * 800);
-        int frameBufferHeight = isPortrait ? (int)((float)height / width * 800) : 800;
+        isPortrait = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+        frameBufferWidth = isPortrait ? 800 : (int)((float)width / height * 800);
+        frameBufferHeight = isPortrait ? (int)((float)height / width * 800) : 800;
 
         Bitmap frameBuffer = Bitmap.createBitmap(frameBufferWidth,
                 frameBufferHeight, Config.RGB_565);
@@ -109,5 +112,20 @@ public abstract class AndroidGame extends Activity implements Game {
     public Screen getCurrentScreen() {
 
         return screen;
+    }
+
+    public boolean isPortrait()
+    {
+        return isPortrait;
+    }
+
+    public int getWidth()
+    {
+        return frameBufferWidth;
+    }
+
+    public int getHeight()
+    {
+        return frameBufferHeight;
     }
 }

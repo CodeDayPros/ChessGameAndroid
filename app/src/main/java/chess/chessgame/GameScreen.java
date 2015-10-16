@@ -31,14 +31,24 @@ public class GameScreen extends Screen
         {
             int x = input.getTouchX(0);
             int y = input.getTouchY(0);
-            board.clickOnBoard(x, y);
+            board.clickOnBoard(x, y, getOffsetX(), getOffsetY());
         }
     }
 
     @Override
     public void paint(float deltaTime)
     {
-        board.drawBoard(graphics, paint);
+        board.drawBoard(graphics, paint, getOffsetX(), getOffsetY());
+    }
+
+    private int getOffsetX()
+    {
+        return game.isPortrait() ? 0 : (game.getWidth() - 800) / 2;
+    }
+
+    private int getOffsetY()
+    {
+        return game.isPortrait() ? (game.getHeight() - 800) / 2 : 0;
     }
 
     @Override

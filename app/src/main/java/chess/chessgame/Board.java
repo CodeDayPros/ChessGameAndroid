@@ -153,7 +153,7 @@ public class Board {
         positions[x][y]=value;
     }
 
-    public void drawBoard(Graphics g, Paint paint)
+    public void drawBoard(Graphics g, Paint paint, int offsetX, int offsetY)
     {
         for (int x = 0; x < 8; x++)
         {
@@ -173,9 +173,9 @@ public class Board {
                     paint.setARGB(255, 225, 0, 225);
 
 
-                g.drawRect(x * 100, y * 100, 100, 100, paint.getColor(), Paint.Style.FILL);
+                g.drawRect(x * 100 + offsetX, y * 100 + offsetY, 100, 100, paint.getColor(), Paint.Style.FILL);
                 paint.setARGB(255, 0, 0, 0);
-                g.drawRect(x * 100, y * 100, 100, 100, paint.getColor(), Paint.Style.STROKE);
+                g.drawRect(x * 100 + offsetX, y * 100 + offsetY, 100, 100, paint.getColor(), Paint.Style.STROKE);
             }
         }
 
@@ -186,46 +186,49 @@ public class Board {
                 int x = location.x*100;
                 int y = location.y*100;
                 paint.setARGB(255, 255, 255, 255);
-                g.drawLine(x, y+pos, x+pos, y, paint.getColor());
-                g.drawLine(x + 100, y + 100 - pos, x + 100 - pos, y + 100, paint.getColor());
+                g.drawLine(x + offsetX, y+pos + offsetY, x+pos + offsetX, y + offsetY, paint.getColor());
+                g.drawLine(x + 100 + offsetX, y + 100 - pos + offsetY, x + 100 - pos + offsetX, y + 100 + offsetY, paint.getColor());
             }
         }
 
         for (Point location : possibleMovementLocations)
         {
             paint.setARGB(255, 0, 255, 0);
-            g.drawRect(location.x*100, location.y*100, 100, 100, paint.getColor(), Paint.Style.STROKE);
+            g.drawRect(location.x * 100 + offsetX, location.y * 100 + offsetY, 100, 100, paint.getColor(), Paint.Style.STROKE);
+            g.drawRect(location.x * 100 + 1 + offsetX, location.y * 100 + 1 + offsetY, 98, 98, paint.getColor(), Paint.Style.STROKE);
         }
 
         if (selectedPiece != null)
         {
             paint.setARGB(255, 255, 255, 0);
-            g.drawRect(selectedPiece.getX()*100, selectedPiece.getY()*100, 100, 100, paint.getColor(),
+            g.drawRect(selectedPiece.getX() * 100 + offsetX, selectedPiece.getY() * 100 + offsetY, 100, 100, paint.getColor(),
+                    Paint.Style.STROKE);
+            g.drawRect(selectedPiece.getX() * 100 + 1 + offsetX, selectedPiece.getY() * 100 + 1 + offsetY, 98, 98, paint.getColor(),
                     Paint.Style.STROKE);
         }
 
         for (Piece piece : pieces)
         {
             if (animationTimer < 0 || piece != selectedPiece)
-                g.drawScaledImage(piece.getImage(), piece.getX()*100, piece.getY()*100, 100, 100);
+                g.drawScaledImage(piece.getImage(), piece.getX()*100 + offsetX, piece.getY()*100 + offsetY, 100, 100);
         }
 
         if (animationTimer >= 0)
         {
             g.drawScaledImage(selectedPiece.getImage(),
-                    (int) ((newLoc.x + (previousLoc.x - newLoc.x) * (animationTimer / 10.)) * 100 + 0.5),
-                    (int) ((newLoc.y + (previousLoc.y - newLoc.y) * (animationTimer / 10.)) * 100 + 0.5),
+                    (int) ((newLoc.x + (previousLoc.x - newLoc.x) * (animationTimer / 10.)) * 100 + offsetX + 0.5),
+                    (int) ((newLoc.y + (previousLoc.y - newLoc.y) * (animationTimer / 10.)) * 100 + offsetY + 0.5),
                     100, 100);
             animationTimer--;
         }
     }
 
-    public void clickOnBoard(int x, int y)
+    public void clickOnBoard(int x, int y, int offsetX, int offsetY)
     {
         if (state == BoardState.NONE && animationTimer == -1)
         {
-            int gridX = x/100;
-            int gridY = y/100;
+            int gridX = (x - offsetX) / 100;
+            int gridY = (y - offsetY) / 100;
             if (gridX < 0 || gridX > 7 || gridY < 0 || gridY > 7)
                 return;
             Piece piece = getPiece(gridX, gridY);

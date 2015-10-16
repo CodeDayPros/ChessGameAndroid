@@ -15,4 +15,10 @@ public interface Game {
     public Screen getCurrentScreen();
 
     public Screen getInitScreen();
+
+    public boolean isPortrait();
+
+    public int getWidth();
+
+    public int getHeight();
 }
