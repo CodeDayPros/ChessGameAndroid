@@ -1,0 +1,136 @@
+package chess.chessgame;
+
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Typeface;
+
+import com.gamedev.framework.Game;
+import com.gamedev.framework.Graphics;
+import com.gamedev.framework.Input;
+import com.gamedev.framework.Screen;
+
+import java.util.ArrayList;
+import java.util.Map;
+
+public class LevelSelectScreen extends Screen
+{
+    Paint paint;
+    Graphics graphics;
+    Input input;
+    Typeface levelFont;
+    int buttonTimer;
+    int levelNum;
+    ArrayList<Rect> levelRectangles;
+    LevelGenerator generator;
+
+    private enum ButtonType
+    {
+        RETRY, NEXT, LOSE
+    }
+
+    public LevelSelectScreen(Game game, LevelGenerator gen)
+    {
+        super(game);
+        graphics=game.getGraphics();
+        paint = new Paint();
+        input = game.getInput();
+        levelFont = Typeface.create("Arial", Typeface.BOLD);
+        buttonTimer = -1;
+        levelNum = -1;
+        levelRectangles = new ArrayList<>();
+        generator = gen;
+        initializeButtons();
+    }
+
+    @Override
+    public void update(float deltaTime) {
+        if (buttonTimer > 0)
+            buttonTimer--;
+        else if (buttonTimer == 0)
+        {
+            generator.setLevel(levelNum);
+            Board board = generator.nextLevel(game.getGraphics());
+            game.setScreen(new GameScreen(game, board, generator));
+            buttonTimer = -1;
+        }
+        handleClick();
+    }
+
+    private void handleClick()
+    {
+        if (input.isTouchDown(0))
+        {
+            int x = input.getTouchX(0);
+            int y = input.getTouchY(0);
+            for (int index = 0; index < levelRectangles.size(); index++)
+            {
+                Rect rect = levelRectangles.get(index);
+                if (rect.contains(x, y))
+                {
+                    levelNum = levelRectangles.indexOf(rect);
+                    buttonTimer = 4;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void paint(float deltaTime)
+    {
+        graphics.drawRect(0, 0, game.getWidth() + 1, game.getHeight() + 1, Color.BLACK, Paint.Style.FILL); //clear window
+        drawLevelButtons();
+    }
+
+    private void initializeButtons()
+    {
+        for (int row = 0; row < 5; row++)
+        {
+            for (int col = 0; col < 5; col++)
+            {
+                int levelNum = row * 5 + col;
+                if (levelNum >= generator.getNumLevels())
+                    return;
+
+                levelRectangles.add(new Rect(col * 160 + 10, row * 160 + 10, col * 160 + 150, row * 160 + 150));
+            }
+        }
+    }
+
+    private void drawLevelButtons()
+    {
+        paint.setTypeface(levelFont);
+        paint.setTextSize(50);
+        paint.setColor(Color.WHITE);
+        paint.setTextAlign(Paint.Align.CENTER);
+        for (int index = 0; index < levelRectangles.size(); index++)
+        {
+            Rect rect = levelRectangles.get(index);
+            paint.setColor(Color.WHITE);
+            if (index == levelNum && buttonTimer >= 0)
+                paint.setColor(Color.RED);
+            graphics.drawString(String.valueOf(index + 1), rect.centerX(), rect.centerY() + 20, paint);
+            graphics.drawRect(rect, paint.getColor(), Paint.Style.STROKE);
+        }
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void dispose() {
+
+    }
+
+    @Override
+    public void backButton() {
+        pause();
+    }
+}

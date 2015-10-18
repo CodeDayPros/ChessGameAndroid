@@ -27,7 +27,7 @@ public class GameScreen extends Screen
 
     private enum ButtonType
     {
-        RETRY, NEXT, LOSE
+        RETRY, NEXT, LOSE, LEVELSELECT
     }
 
     public GameScreen(Game game, Board b, LevelGenerator gen)
@@ -59,6 +59,9 @@ public class GameScreen extends Screen
                 case NEXT:
                     board = generator.nextLevel(graphics);
                     break;
+                case LEVELSELECT:
+                    game.setScreen(new LevelSelectScreen(game, generator));
+                    break;
             }
             buttonTimer = -1;
         }
@@ -78,7 +81,8 @@ public class GameScreen extends Screen
                     ButtonType type = entry.getKey();
                     if ((type == ButtonType.RETRY && board.getState() == BoardState.NONE)
                     || (type == ButtonType.NEXT && board.getState() == BoardState.WON)
-                    || (type == ButtonType.LOSE && board.getState() == BoardState.LOST))
+                    || (type == ButtonType.LOSE && board.getState() == BoardState.LOST)
+                    || type == ButtonType.LEVELSELECT)
                     {
                         buttonType = type;
                         buttonTimer = 4;
@@ -92,7 +96,7 @@ public class GameScreen extends Screen
     @Override
     public void paint(float deltaTime)
     {
-        graphics.drawRect(0, 0, game.getWidth(), game.getHeight(), Color.BLACK, Paint.Style.FILL); //clear window
+        graphics.drawRect(0, 0, game.getWidth() + 1, game.getHeight() + 1, Color.BLACK, Paint.Style.FILL); //clear window
         board.drawBoard(graphics, paint, getOffsetX(), getOffsetY());
         drawInterface();
     }
@@ -103,6 +107,7 @@ public class GameScreen extends Screen
         Rect loseWinRect = new Rect(getOffsetX() + 250, getOffsetY() + 450, getOffsetX() + 550, getOffsetY() + 540);
         buttonRectangles.put(ButtonType.NEXT, loseWinRect);
         buttonRectangles.put(ButtonType.LOSE, loseWinRect);
+        buttonRectangles.put(ButtonType.LEVELSELECT, new Rect(game.getWidth() - 290, game.getHeight() - 190, game.getWidth(), game.getHeight() - 100));
     }
 
     private void drawInterface()
@@ -113,19 +118,24 @@ public class GameScreen extends Screen
         paint.setTextAlign(Paint.Align.LEFT);
         graphics.drawString("Level " + generator.getCurrentLevel(), 20, game.getHeight() - 30, paint);
 
-        paint.setTextAlign(Paint.Align.RIGHT);
+        paint.setTextAlign(Paint.Align.CENTER);
         if (board.getState() != BoardState.NONE)
             paint.setColor(Color.GRAY);
         else if (buttonType == ButtonType.RETRY && buttonTimer >= 0)
             paint.setColor(Color.RED);
-        graphics.drawString("Retry Level", game.getWidth() - 20, game.getHeight() - 25, paint);
+        graphics.drawString("Retry Level", game.getWidth() - 145, game.getHeight() - 25, paint);
         graphics.drawRect(buttonRectangles.get(ButtonType.RETRY), paint.getColor(), Paint.Style.STROKE);
+
+        paint.setColor(Color.WHITE);
+        if (buttonType == ButtonType.LEVELSELECT && buttonTimer >= 0)
+            paint.setColor(Color.RED);
+        graphics.drawString("Select Level", game.getWidth() - 145, game.getHeight() - 125, paint);
+        graphics.drawRect(buttonRectangles.get(ButtonType.LEVELSELECT), paint.getColor(), Paint.Style.STROKE);
 
         if (board.getState() != BoardState.NONE)
         {
             paint.setARGB(200, 255, 255, 255);
             graphics.drawRect(getOffsetX() + 200, getOffsetY() + 250, 400, 300, paint.getColor(), Paint.Style.FILL);
-            paint.setTextAlign(Paint.Align.CENTER);
             paint.setColor(Color.BLACK);
             ButtonType type;
             String buttonName;
