@@ -11,7 +11,6 @@ import com.gamedev.framework.Input;
 import com.gamedev.framework.Screen;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class LevelSelectScreen extends Screen
 {
@@ -23,11 +22,6 @@ public class LevelSelectScreen extends Screen
     int levelNum;
     ArrayList<Rect> levelRectangles;
     LevelGenerator generator;
-
-    private enum ButtonType
-    {
-        RETRY, NEXT, LOSE
-    }
 
     public LevelSelectScreen(Game game, LevelGenerator gen)
     {
@@ -84,15 +78,21 @@ public class LevelSelectScreen extends Screen
 
     private void initializeButtons()
     {
-        for (int row = 0; row < 5; row++)
+        int totalRows = game.isPortrait() ? 7 : 5;
+        int totalColumns = game.isPortrait() ? 5 : 7;
+        for (int row = 0; row < totalRows; row++)
         {
-            for (int col = 0; col < 5; col++)
+            for (int col = 0; col < totalColumns; col++)
             {
-                int levelNum = row * 5 + col;
+                int levelNum = row * totalColumns + col;
                 if (levelNum >= generator.getNumLevels())
                     return;
 
-                levelRectangles.add(new Rect(col * 160 + 10, row * 160 + 10, col * 160 + 150, row * 160 + 150));
+                levelRectangles.add(new Rect(
+                        col * 160 + 10,
+                        row * 160 + 10,
+                        col * 160 + 150,
+                        row * 160 + 150));
             }
         }
     }

@@ -23,7 +23,35 @@ public class MainGame extends AndroidGame
             board = generator.nextLevel(getGraphics());
         }
         gameScreen = new GameScreen(this, board, generator);
-        return gameScreen;
+
+        if (MainApplication.screenType == null)
+            MainApplication.screenType = MainApplication.LastScreenType.GAME; //change to title later
+
+        if (MainApplication.screenType == MainApplication.LastScreenType.GAME)
+        {
+            return gameScreen;
+        }
+        else if (MainApplication.screenType == MainApplication.LastScreenType.LEVELSELECT)
+        {
+            return new LevelSelectScreen(this, generator);
+        }
+        return null;
+    }
+
+    @Override
+    public void setScreen(Screen screen)
+    {
+        super.setScreen(screen);
+
+        if (screen instanceof GameScreen)
+        {
+            gameScreen = (GameScreen)screen;
+            MainApplication.screenType = MainApplication.LastScreenType.GAME;
+        }
+        else if (screen instanceof LevelSelectScreen)
+        {
+            MainApplication.screenType = MainApplication.LastScreenType.LEVELSELECT;
+        }
     }
 
     @Override
