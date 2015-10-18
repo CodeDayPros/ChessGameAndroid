@@ -130,7 +130,9 @@ public class LevelSelectScreen extends Screen
     }
 
     @Override
-    public void backButton() {
-        pause();
+    public boolean backButton()
+    {
+        game.setScreen(new TitleScreen(game));
+        return false;
     }
 }

@@ -6,6 +6,8 @@ import com.gamedev.framework.implementation.AndroidGame;
 public class MainGame extends AndroidGame
 {
     GameScreen gameScreen;
+    Board board;
+    LevelGenerator generator;
 
     @Override
     public Screen getInitScreen()
@@ -25,7 +27,7 @@ public class MainGame extends AndroidGame
         gameScreen = new GameScreen(this, board, generator);
 
         if (MainApplication.screenType == null)
-            MainApplication.screenType = MainApplication.LastScreenType.GAME; //change to title later
+            MainApplication.screenType = MainApplication.LastScreenType.TITLE;
 
         if (MainApplication.screenType == MainApplication.LastScreenType.GAME)
         {
@@ -34,6 +36,10 @@ public class MainGame extends AndroidGame
         else if (MainApplication.screenType == MainApplication.LastScreenType.LEVELSELECT)
         {
             return new LevelSelectScreen(this, generator);
+        }
+        else if (MainApplication.screenType == MainApplication.LastScreenType.TITLE)
+        {
+            return new TitleScreen(this);
         }
         return null;
     }
@@ -52,13 +58,17 @@ public class MainGame extends AndroidGame
         {
             MainApplication.screenType = MainApplication.LastScreenType.LEVELSELECT;
         }
+        else if (screen instanceof TitleScreen)
+        {
+            MainApplication.screenType = MainApplication.LastScreenType.TITLE;
+        }
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy()
+    {
         super.onDestroy();
-
-        MainApplication.board = gameScreen.board;
-        MainApplication.generator = gameScreen.generator;
+        MainApplication.board = board;
+        MainApplication.generator = generator;
     }
 }

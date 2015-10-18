@@ -160,16 +160,6 @@ public class GameScreen extends Screen
         }
     }
 
-    private int getOffsetX()
-    {
-        return game.isPortrait() ? 0 : (game.getWidth() - 800) / 2;
-    }
-
-    private int getOffsetY()
-    {
-        return game.isPortrait() ? (game.getHeight() - 800) / 2 : 0;
-    }
-
     @Override
     public void pause() {
 
@@ -186,7 +176,9 @@ public class GameScreen extends Screen
     }
 
     @Override
-    public void backButton() {
-        pause();
+    public boolean backButton()
+    {
+        game.setScreen(new TitleScreen(game));
+        return false;
     }
 }
