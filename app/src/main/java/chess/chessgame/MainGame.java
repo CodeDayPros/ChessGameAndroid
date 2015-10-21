@@ -9,8 +9,6 @@ import com.gamedev.framework.implementation.AndroidGame;
 public class MainGame extends AndroidGame
 {
     GameScreen gameScreen;
-    Board board;
-    LevelGenerator generator;
     public static final String PREFS_NAME = "ChessGame";
 
     @Override
@@ -69,18 +67,12 @@ public class MainGame extends AndroidGame
     }
 
     @Override
-    protected void onDestroy()
-    {
-        super.onDestroy();
-        MainApplication.board = board;
-        MainApplication.generator = generator;
-    }
-
-    @Override
     protected void onStop()
     {
         super.onStop();
 
+        MainApplication.board = gameScreen.board;
+        MainApplication.generator = gameScreen.generator;
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("lastUnlockedLevel", MainApplication.lastUnlockedLevel);
