@@ -175,14 +175,23 @@ public class LevelGenerator
                 positions[5][4]=1;
             }
         });
+
         levelsList.add(new Level()
         {
             public void generate(List<Piece> pieces, List<Point> finalLocations, int[][] positions, Graphics g)
             {
-                pieces.add(new Knight(4, 4, g));
-                pieces.add(new Queen(0, 6, g));
+                pieces.add(new Knight(4, 4,g));
+                pieces.add(new Queen(0, 6,g));
+                pieces.add(new Bishop(7,7,g));
                 finalLocations.add(new Point(6, 1));
                 finalLocations.add(new Point(3, 3));
+                finalLocations.add(new Point(2,4));
+                positions[2][2]=1;
+                positions[5][7]=1;
+                positions[2][4]=1;
+                positions[4][4]=1;
+                positions[5][3]=1;
+                positions[1][1]=1;
                 positions[3][2]=1;
                 positions[5][2]=1;
                 positions[6][1]=1;
@@ -192,6 +201,7 @@ public class LevelGenerator
                 positions[4][0]=2;
             }
         });
+
         // level 11
         levelsList.add(new Level()
         {
@@ -239,20 +249,20 @@ public class LevelGenerator
             {
                 pieces.add(new Knight(3, 4, g));
                 pieces.add(new Rook(1, 5, g));
-                pieces.add(new Bishop(5, 2, g));
+                pieces.add(new Bishop(3,3,g));
                 finalLocations.add(new Point(2, 2));
-                finalLocations.add(new Point(6, 7));
+                finalLocations.add(new Point(0,3));
                 finalLocations.add(new Point(1, 7));
+                positions[1][5]=1;
+                positions[0][3]=1;
                 positions[2][2]=1;
-                positions[6][7]=1;
                 positions[1][7]=1;
                 positions[3][2]=1;
-                positions[7][4]=1;
                 positions[3][5]=1;
                 positions[3][6]=1;
                 positions[3][7]=1;
                 positions[5][5]=1;
-                positions[5][6]=1;
+
             }
         });
         levelsList.add(new Level()
@@ -360,12 +370,13 @@ public class LevelGenerator
                 pieces.add(new Rook(1, 1, g));
                 pieces.add(new Knight(5, 2, g));
                 pieces.add(new Knight(5, 3, g));
-                pieces.add(new Bishop(5, 7, g));
+                pieces.add(new Bishop(6, 7, g));
                 finalLocations.add(new Point(3, 3));
                 finalLocations.add(new Point(6, 1));
                 finalLocations.add(new Point(1, 5));
-                finalLocations.add(new Point(3, 5));
+                finalLocations.add(new Point(3,5));
                 positions[3][5]=1;
+                positions[7][5]=1;
                 positions[1][5]=1;
                 positions[6][1]=1;
                 positions[3][3]=1;
@@ -373,7 +384,7 @@ public class LevelGenerator
                 positions[4][1]=1;
                 positions[1][2]=1;
                 positions[2][3]=1;
-                positions[3][4]=1;
+                positions[3][4]=2;
                 positions[4][4]=1;
                 positions[4][5]=1;
                 positions[6][5]=1;
