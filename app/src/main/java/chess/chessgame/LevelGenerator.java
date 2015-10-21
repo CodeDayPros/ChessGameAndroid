@@ -508,6 +508,8 @@ public class LevelGenerator
     public Board nextLevel(Graphics g)
     {
         currentLevel++;
+        if (currentLevel > MainApplication.lastUnlockedLevel)
+            MainApplication.lastUnlockedLevel = currentLevel;
         return generateLevel(g);
     }
 

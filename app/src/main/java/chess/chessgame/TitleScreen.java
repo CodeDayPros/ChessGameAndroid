@@ -47,14 +47,20 @@ public class TitleScreen extends Screen
         else if (buttonTimer == 0)
         {
             LevelGenerator generator = new LevelGenerator();
+            Board board;
             switch (buttonType)
             {
                 case NEWGAME:
-                    Board board = generator.nextLevel(game.getGraphics());
+                    board = generator.nextLevel(game.getGraphics());
                     game.setScreen(new GameScreen(this.game, board, generator));
                     break;
                 case LEVELSELECT:
                     game.setScreen(new LevelSelectScreen(this.game, generator));
+                    break;
+                case CONTINUE:
+                    generator.setLevel(MainApplication.lastUnlockedLevel - 1);
+                    board = generator.nextLevel(game.getGraphics());
+                    game.setScreen(new GameScreen(this.game, board, generator));
                     break;
             }
             buttonTimer = -1;

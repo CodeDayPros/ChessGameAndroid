@@ -57,7 +57,9 @@ public class LevelSelectScreen extends Screen
         {
             int x = input.getTouchX(0);
             int y = input.getTouchY(0);
-            for (int index = 0; index < levelRectangles.size(); index++)
+            for (int index = 0;
+                 index < MainApplication.lastUnlockedLevel && index < levelRectangles.size();
+                 index++)
             {
                 Rect rect = levelRectangles.get(index);
                 if (rect.contains(x, y))
@@ -107,7 +109,9 @@ public class LevelSelectScreen extends Screen
         {
             Rect rect = levelRectangles.get(index);
             paint.setColor(Color.WHITE);
-            if (index == levelNum && buttonTimer >= 0)
+            if (index >= MainApplication.lastUnlockedLevel)
+                paint.setColor(Color.GRAY);
+            else if (index == levelNum && buttonTimer >= 0)
                 paint.setColor(Color.RED);
             graphics.drawString(String.valueOf(index + 1), rect.centerX(), rect.centerY() + 20, paint);
             graphics.drawRect(rect, paint.getColor(), Paint.Style.STROKE);
