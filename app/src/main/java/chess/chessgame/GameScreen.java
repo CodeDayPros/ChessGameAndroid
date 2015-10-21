@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.widget.Button;
 
 import com.gamedev.framework.Game;
 import com.gamedev.framework.Graphics;
@@ -123,14 +124,12 @@ public class GameScreen extends Screen
             paint.setColor(Color.GRAY);
         else if (buttonType == ButtonType.RETRY && buttonTimer >= 0)
             paint.setColor(Color.RED);
-        graphics.drawString("Retry Level", game.getWidth() - 145, game.getHeight() - 25, paint);
-        graphics.drawRect(buttonRectangles.get(ButtonType.RETRY), paint.getColor(), Paint.Style.STROKE);
+        drawButton(ButtonType.RETRY, "Retry Level");
 
         paint.setColor(Color.WHITE);
         if (buttonType == ButtonType.LEVELSELECT && buttonTimer >= 0)
             paint.setColor(Color.RED);
-        graphics.drawString("Select Level", game.getWidth() - 145, game.getHeight() - 125, paint);
-        graphics.drawRect(buttonRectangles.get(ButtonType.LEVELSELECT), paint.getColor(), Paint.Style.STROKE);
+        drawButton(ButtonType.LEVELSELECT, "Select Level");
 
         if (board.getState() != BoardState.NONE)
         {
@@ -155,9 +154,15 @@ public class GameScreen extends Screen
             graphics.drawString(text, getOffsetX() + 400, getOffsetY() + 370, paint);
             if (buttonType == type && buttonTimer >= 0)
                 paint.setColor(Color.RED);
-            graphics.drawString(buttonName, getOffsetX() + 400, getOffsetY() + 515, paint);
-            graphics.drawRect(buttonRectangles.get(type), paint.getColor(), Paint.Style.STROKE);
+            drawButton(type, buttonName);
         }
+    }
+
+    private void drawButton(ButtonType type, String buttonName)
+    {
+        Rect rect = buttonRectangles.get(type);
+        graphics.drawString(buttonName, rect.centerX(), rect.centerY() + 20, paint);
+        graphics.drawRect(buttonRectangles.get(type), paint.getColor(), Paint.Style.STROKE);
     }
 
     @Override

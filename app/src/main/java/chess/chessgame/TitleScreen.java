@@ -25,7 +25,7 @@ public class TitleScreen extends Screen
 
     private enum ButtonType
     {
-        START
+        NEWGAME, LEVELSELECT, CONTINUE
     }
 
     public TitleScreen(Game game) {
@@ -46,16 +46,18 @@ public class TitleScreen extends Screen
             buttonTimer--;
         else if (buttonTimer == 0)
         {
+            LevelGenerator generator = new LevelGenerator();
             switch (buttonType)
             {
-                case START:
-                    Board board;
-                    LevelGenerator generator;
-                    generator = new LevelGenerator();
-                    board = generator.nextLevel(game.getGraphics());
+                case NEWGAME:
+                    Board board = generator.nextLevel(game.getGraphics());
                     game.setScreen(new GameScreen(this.game, board, generator));
                     break;
+                case LEVELSELECT:
+                    game.setScreen(new LevelSelectScreen(this.game, generator));
+                    break;
             }
+            buttonTimer = -1;
         }
         handleClick();
     }
@@ -80,21 +82,31 @@ public class TitleScreen extends Screen
 
    private void initializeButtons()
    {
-       buttonRectangles.put(ButtonType.START, new Rect(getOffsetX() + 240, getOffsetY() + 450, getOffsetX() + 560, getOffsetY() + 540));
+       buttonRectangles.put(ButtonType.NEWGAME, new Rect(getOffsetX() + 240, getOffsetY() + 450, getOffsetX() + 560, getOffsetY() + 540));
+       buttonRectangles.put(ButtonType.CONTINUE, new Rect(getOffsetX() + 240, getOffsetY() + 550, getOffsetX() + 560, getOffsetY() + 640));
+       buttonRectangles.put(ButtonType.LEVELSELECT, new Rect(getOffsetX() + 240, getOffsetY() + 650, getOffsetX() + 560, getOffsetY() + 740));
    }
 
     @Override
     public void paint(float deltaTime)
     {
         graphics.drawRect(0, 0, game.getWidth() + 1, game.getHeight() + 1, Color.BLACK, Paint.Style.FILL);
-        paint.setColor(Color.WHITE);
-        paint.setTextAlign(Paint.Align.CENTER);
-        if (buttonTimer > 0)
-            paint.setColor(Color.RED);
-        graphics.drawRect(buttonRectangles.get(ButtonType.START), paint.getColor(), Paint.Style.STROKE);
         paint.setTypeface(levelFont);
         paint.setTextSize(50);
-        graphics.drawString("Start Game", getOffsetX() + 400, getOffsetY() + 515, paint);
+        paint.setTextAlign(Paint.Align.CENTER);
+        drawButton(ButtonType.NEWGAME, "New Game");
+        drawButton(ButtonType.CONTINUE, "Continue");
+        drawButton(ButtonType.LEVELSELECT, "Select Level");
+    }
+
+    private void drawButton(ButtonType type, String buttonName)
+    {
+        paint.setColor(Color.WHITE);
+        if (buttonTimer > 0 && buttonType == type)
+            paint.setColor(Color.RED);
+        Rect rect = buttonRectangles.get(type);
+        graphics.drawString(buttonName, rect.centerX(), rect.centerY() + 20, paint);
+        graphics.drawRect(buttonRectangles.get(type), paint.getColor(), Paint.Style.STROKE);
     }
 
     @Override
