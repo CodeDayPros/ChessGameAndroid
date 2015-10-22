@@ -15,4 +15,18 @@ public class PlaySounds {
             Sound s = audio.createSound("CH.mp3");
             s.play(10);
         }
+        public static void winSound(Game g)
+        {
+
+        }
+        public static void loseSound(Game g)
+        {
+
+        }
+        public static void moveSound(Game g)
+        {
+            audio=g.getAudio();
+            Sound s= audio.createSound("move.mp3");
+            s.play(10);
+        }
 }

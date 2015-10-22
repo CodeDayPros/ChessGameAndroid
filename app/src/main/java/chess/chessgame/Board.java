@@ -3,6 +3,7 @@ package chess.chessgame;
 import android.graphics.Paint;
 import android.graphics.Point;
 
+import com.gamedev.framework.Game;
 import com.gamedev.framework.Graphics;
 
 import java.util.ArrayList;
@@ -19,7 +20,6 @@ public class Board {
 
     private Piece selectedPiece;
     private List<Point> possibleMovementLocations;
-
     private BoardState state;
 
     public Board(List<Piece> x, int[][] p, List<Point> l)
@@ -30,11 +30,7 @@ public class Board {
         possibleMovementLocations = new ArrayList<Point>();
         state = BoardState.NONE;
         animationTimer = -1;
-    }
 
-    public Board()
-    {
-        this(new ArrayList<Piece>(), new int[8][8], new ArrayList<Point>());
     }
 
     public BoardState getState()
@@ -223,7 +219,7 @@ public class Board {
         }
     }
 
-    public void clickOnBoard(int x, int y, int offsetX, int offsetY)
+    public void clickOnBoard(int x, int y, int offsetX, int offsetY, Game game)
     {
         if (state == BoardState.NONE && animationTimer == -1)
         {
@@ -246,6 +242,7 @@ public class Board {
                         selectedPiece.setPos(gridX, gridY);
                         setValue(gridX, gridY, getValue(gridX, gridY) - 1);
                         updatePossibleLocations();
+                        PlaySounds.moveSound(game);
                         updateWinLoss();
                         return;
                     }

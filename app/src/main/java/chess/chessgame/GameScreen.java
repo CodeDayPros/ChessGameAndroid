@@ -97,7 +97,7 @@ public class GameScreen extends Screen
                     }
                 }
             }
-            board.clickOnBoard(x, y, getOffsetX(), getOffsetY());
+            board.clickOnBoard(x, y, getOffsetX(), getOffsetY(), game);
 
         }
     }
