@@ -53,6 +53,10 @@ public class GameScreen extends Screen
     public void update(float deltaTime) {
         if (buttonTimer > 0)
             buttonTimer--;
+        if(buttonTimer==3) {
+            Sound s = audio.createSound("CH.mp3");
+            s.play(10);
+        }
         else if (buttonTimer == 0)
         {
             switch(buttonType)
@@ -91,8 +95,6 @@ public class GameScreen extends Screen
                     {
                         buttonType = type;
                         buttonTimer = 4;
-                        Sound s = audio.createSound("CH.mp3");
-                        s.play(10);
                     }
                 }
             }

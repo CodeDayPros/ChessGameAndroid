@@ -45,6 +45,10 @@ public class LevelSelectScreen extends Screen
     public void update(float deltaTime) {
         if (buttonTimer > 0)
             buttonTimer--;
+        if(buttonTimer==3) {
+            Sound s = audio.createSound("CH.mp3");
+            s.play(10);
+        }
         else if (buttonTimer == 0)
         {
             generator.setLevel(levelNum);
@@ -70,8 +74,6 @@ public class LevelSelectScreen extends Screen
                 {
                     levelNum = levelRectangles.indexOf(rect);
                     buttonTimer = 4;
-                    Sound s = audio.createSound("CH.mp3");
-                    s.play(10);
                 }
             }
         }

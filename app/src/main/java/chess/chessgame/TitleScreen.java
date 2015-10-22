@@ -46,8 +46,14 @@ public class TitleScreen extends Screen
     @Override
     public void update(float deltaTime)
     {
+
+
         if (buttonTimer > 0)
             buttonTimer--;
+        if(buttonTimer==3) {
+            Sound s = audio.createSound("CH.mp3");
+            s.play(10);
+        }
         else if (buttonTimer == 0)
         {
             LevelGenerator generator = new LevelGenerator();
@@ -85,8 +91,8 @@ public class TitleScreen extends Screen
                 {
                     buttonType = entry.getKey();
                     buttonTimer = 4;
-                    Sound s = audio.createSound("CH.mp3");
-                    s.play(10);
+
+
                 }
             }
         }
