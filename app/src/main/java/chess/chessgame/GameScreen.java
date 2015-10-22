@@ -90,7 +90,7 @@ public class GameScreen extends Screen
                 if (buttonRect.contains(x, y))
                 {
                     ButtonType type = entry.getKey();
-                    if ((type == ButtonType.RETRY && board.getState() == BoardState.NONE)
+                    if (type == ButtonType.RETRY
                     || (type == ButtonType.NEXT && board.getState() == BoardState.WON)
                     || (type == ButtonType.LOSE && board.getState() == BoardState.LOST)
                     || type == ButtonType.LEVELSELECT)
@@ -139,16 +139,8 @@ public class GameScreen extends Screen
         graphics.drawString("Level " + generator.getCurrentLevel(), 20, game.getHeight() - 30, paint);
 
         paint.setTextAlign(Paint.Align.CENTER);
-        if (board.getState() != BoardState.NONE)
-            paint.setColor(Color.GRAY);
-        else if (buttonType == ButtonType.RETRY && buttonTimer >= 0)
-            paint.setColor(Color.RED);
-        drawButton(ButtonType.RETRY, "Retry Level");
-
-        paint.setColor(Color.WHITE);
-        if (buttonType == ButtonType.LEVELSELECT && buttonTimer >= 0)
-            paint.setColor(Color.RED);
-        drawButton(ButtonType.LEVELSELECT, "Select Level");
+        drawButton(ButtonType.RETRY, "Retry Level", Color.WHITE);
+        drawButton(ButtonType.LEVELSELECT, "Select Level", Color.WHITE);
 
         if (board.getState() != BoardState.NONE)
         {
@@ -171,14 +163,15 @@ public class GameScreen extends Screen
                 text = "You Lose!";
             }
             graphics.drawString(text, getOffsetX() + 400, getOffsetY() + 370, paint);
-            if (buttonType == type && buttonTimer >= 0)
-                paint.setColor(Color.RED);
-            drawButton(type, buttonName);
+            drawButton(type, buttonName, Color.BLACK);
         }
     }
 
-    private void drawButton(ButtonType type, String buttonName)
+    private void drawButton(ButtonType type, String buttonName, int defaultColor)
     {
+        paint.setColor(defaultColor);
+        if (buttonType == type && buttonTimer >= 0)
+            paint.setColor(Color.RED);
         Rect rect = buttonRectangles.get(type);
         graphics.drawString(buttonName, rect.centerX(), rect.centerY() + 20, paint);
         graphics.drawRect(buttonRectangles.get(type), paint.getColor(), Paint.Style.STROKE);
