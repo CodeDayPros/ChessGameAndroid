@@ -54,8 +54,7 @@ public class GameScreen extends Screen
         if (buttonTimer > 0)
             buttonTimer--;
         if(buttonTimer==3) {
-            Sound s = audio.createSound("CH.mp3");
-            s.play(10);
+            PlaySounds.buttonSound(game);
         }
         else if (buttonTimer == 0)
         {
