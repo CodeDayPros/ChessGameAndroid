@@ -4,30 +4,26 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.widget.Button;
 
-import com.gamedev.framework.Audio;
 import com.gamedev.framework.Game;
 import com.gamedev.framework.Graphics;
 import com.gamedev.framework.Input;
 import com.gamedev.framework.Screen;
-import com.gamedev.framework.Sound;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class GameScreen extends Screen
 {
-    Paint paint;
-    Board board;
-    LevelGenerator generator;
-    Graphics graphics;
-    Input input;
-    Audio audio;
-    Typeface levelFont;
-    int buttonTimer;
-    ButtonType buttonType;
-    Map<ButtonType, Rect> buttonRectangles;
+    private Paint paint;
+    private Board board;
+    private LevelGenerator generator;
+    private Graphics graphics;
+    private Input input;
+    private Typeface levelFont;
+    private int buttonTimer;
+    private ButtonType buttonType;
+    private Map<ButtonType, Rect> buttonRectangles;
 
     private enum ButtonType
     {
@@ -37,20 +33,20 @@ public class GameScreen extends Screen
     public GameScreen(Game game, Board b, LevelGenerator gen)
     {
         super(game);
-        graphics=game.getGraphics();
+        graphics = game.getGraphics();
         paint = new Paint();
         generator = gen;
         board = b;
         input = game.getInput();
         levelFont = Typeface.create("Arial", Typeface.BOLD);
         buttonTimer = -1;
-        audio= game.getAudio();
         buttonRectangles = new HashMap();
         initializeButtons();
     }
 
     @Override
-    public void update(float deltaTime) {
+    public void update(float deltaTime)
+    {
         if(buttonTimer == 3)
             PlaySounds.buttonSound(game.getAudio());
         if (buttonTimer > 0)
@@ -82,7 +78,7 @@ public class GameScreen extends Screen
         {
             int x = input.getTouchX(0);
             int y = input.getTouchY(0);
-            for ( Map.Entry<ButtonType, Rect> entry : buttonRectangles.entrySet() )
+            for (Map.Entry<ButtonType, Rect> entry : buttonRectangles.entrySet())
             {
                 Rect buttonRect = entry.getValue();
                 if (buttonRect.contains(x, y))
@@ -107,8 +103,8 @@ public class GameScreen extends Screen
         if (board.getState() == BoardState.WON)
         {
             int nextLevel = generator.getCurrentLevel() + 1;
-            if (nextLevel > MainApplication.lastUnlockedLevel)
-                MainApplication.lastUnlockedLevel = nextLevel;
+            if (nextLevel > MainApplication.getLastUnlockedLevel())
+                MainApplication.setLastUnlockedLevel(nextLevel);
         }
     }
     @Override
@@ -176,18 +172,18 @@ public class GameScreen extends Screen
     }
 
     @Override
-    public void pause() {
-
+    public void pause()
+    {
     }
 
     @Override
-    public void resume() {
-
+    public void resume()
+    {
     }
 
     @Override
-    public void dispose() {
-
+    public void dispose()
+    {
     }
 
     @Override
@@ -195,5 +191,15 @@ public class GameScreen extends Screen
     {
         game.setScreen(new TitleScreen(game));
         return false;
+    }
+
+    public Board getBoard()
+    {
+        return board;
+    }
+
+    public LevelGenerator getGenerator()
+    {
+        return generator;
     }
 }

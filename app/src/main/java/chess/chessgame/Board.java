@@ -9,15 +9,14 @@ import com.gamedev.framework.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Board {
+public class Board
+{
     private List<Piece> pieces;
     private int[][] positions;
     private List<Point> finalLocations;
-
     private Point previousLoc;
     private Point newLoc;
     private int animationTimer;
-
     private Piece selectedPiece;
     private List<Point> possibleMovementLocations;
     private BoardState state;
@@ -27,10 +26,9 @@ public class Board {
         positions = p;
         pieces = x;
         finalLocations = l;
-        possibleMovementLocations = new ArrayList<Point>();
+        possibleMovementLocations = new ArrayList<>();
         state = BoardState.NONE;
         animationTimer = -1;
-
     }
 
     public BoardState getState()
@@ -38,10 +36,6 @@ public class Board {
         return state;
     }
 
-    public void setState(BoardState s)
-    {
-        state = s;
-    }
     public Piece getPiece(int x, int y)
     {
         for(Piece p: pieces)
@@ -52,11 +46,6 @@ public class Board {
         return null;
     }
 
-    public Piece getSelectedPiece()
-    {
-        return selectedPiece;
-    }
-
     public void selectPiece(Piece piece)
     {
         selectedPiece = piece;
@@ -65,7 +54,7 @@ public class Board {
 
     private List<Point> getPossibleLocations(Piece piece)
     {
-        List<Point> locations = new ArrayList<Point>();
+        List<Point> locations = new ArrayList<>();
         for (Point location : piece.listOfPositions())
         {
             int x = location.x;
@@ -76,8 +65,8 @@ public class Board {
                 boolean addLocation = true;
                 for (Piece otherPiece : pieces)
                 {
-                    MathVector u = new MathVector((int)(otherPiece.getX() - piece.getX()), (int)(otherPiece.getY() - piece.getY()));
-                    MathVector v = new MathVector((int)(x - piece.getX()), (int)(y - piece.getY()));
+                    MathVector u = new MathVector(otherPiece.getX() - piece.getX(), otherPiece.getY() - piece.getY());
+                    MathVector v = new MathVector(x - piece.getX(), y - piece.getY());
                     if (Math.abs(u.dotProduct(v)/(u.magnitude()*v.magnitude()) - 1) < 0.0001 && u.magnitude() < v.magnitude())
                     {
                         addLocation = false;
@@ -173,7 +162,6 @@ public class Board {
                     paint.setARGB(255, 255, 0, 0);
                 else if (valueAtPosition == 2)
                     paint.setARGB(255, 225, 0, 225);
-
 
                 g.drawRect(x * 100 + offsetX, y * 100 + offsetY, 100, 100, paint.getColor(), Paint.Style.FILL);
                 paint.setARGB(255, 0, 0, 0);

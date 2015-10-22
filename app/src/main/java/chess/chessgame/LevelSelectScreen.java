@@ -5,34 +5,30 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 
-import com.gamedev.framework.Audio;
 import com.gamedev.framework.Game;
 import com.gamedev.framework.Graphics;
 import com.gamedev.framework.Input;
 import com.gamedev.framework.Screen;
-import com.gamedev.framework.Sound;
 
 import java.util.ArrayList;
 
 public class LevelSelectScreen extends Screen
 {
-    Paint paint;
-    Graphics graphics;
-    Input input;
-    Audio audio;
-    Typeface levelFont;
-    int buttonTimer;
-    int levelNum;
-    ArrayList<Rect> levelRectangles;
-    LevelGenerator generator;
+    private Paint paint;
+    private Graphics graphics;
+    private Input input;
+    private Typeface levelFont;
+    private int buttonTimer;
+    private int levelNum;
+    private ArrayList<Rect> levelRectangles;
+    private LevelGenerator generator;
 
     public LevelSelectScreen(Game game, LevelGenerator gen)
     {
         super(game);
-        graphics=game.getGraphics();
+        graphics = game.getGraphics();
         paint = new Paint();
         input = game.getInput();
-        audio = game.getAudio();
         levelFont = Typeface.create("Arial", Typeface.BOLD);
         buttonTimer = -1;
         levelNum = -1;
@@ -42,7 +38,8 @@ public class LevelSelectScreen extends Screen
     }
 
     @Override
-    public void update(float deltaTime) {
+    public void update(float deltaTime)
+    {
         if (buttonTimer == 3)
             PlaySounds.buttonSound(game.getAudio());
         if (buttonTimer > 0)
@@ -63,7 +60,7 @@ public class LevelSelectScreen extends Screen
             int x = input.getTouchX(0);
             int y = input.getTouchY(0);
             for (int index = 0;
-                 index < MainApplication.lastUnlockedLevel && index < levelRectangles.size();
+                 index < MainApplication.getLastUnlockedLevel() && index < levelRectangles.size();
                  index++)
             {
                 Rect rect = levelRectangles.get(index);
@@ -114,7 +111,7 @@ public class LevelSelectScreen extends Screen
         {
             Rect rect = levelRectangles.get(index);
             paint.setColor(Color.WHITE);
-            if (index >= MainApplication.lastUnlockedLevel)
+            if (index >= MainApplication.getLastUnlockedLevel())
                 paint.setColor(Color.GRAY);
             else if (index == levelNum && buttonTimer >= 0)
                 paint.setColor(Color.RED);
@@ -124,18 +121,18 @@ public class LevelSelectScreen extends Screen
     }
 
     @Override
-    public void pause() {
-
+    public void pause()
+    {
     }
 
     @Override
-    public void resume() {
-
+    public void resume()
+    {
     }
 
     @Override
-    public void dispose() {
-
+    public void dispose()
+    {
     }
 
     @Override

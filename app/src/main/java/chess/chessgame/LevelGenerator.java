@@ -10,13 +10,12 @@ import java.util.List;
 public class LevelGenerator
 {
     private int currentLevel;
-    private Board board;
     private ArrayList<Level> levelsList;
 
     public LevelGenerator()
     {
         currentLevel = 0;
-        levelsList = new ArrayList<Level>();
+        levelsList = new ArrayList<>();
         // level 1
         levelsList.add(new Level()
         {
@@ -550,13 +549,13 @@ public class LevelGenerator
 
     private Board generateLevel(Graphics g)
     {
-        List<Piece> pieces = new ArrayList<Piece>();
-        List<Point> finalLocations = new ArrayList<Point>();
+        List<Piece> pieces = new ArrayList<>();
+        List<Point> finalLocations = new ArrayList<>();
         int[][] positions = new int[8][8];
 
         levelsList.get(currentLevel-1).generate(pieces, finalLocations, positions, g);
 
-        board = new Board(pieces, positions, finalLocations);
+        Board board = new Board(pieces, positions, finalLocations);
         if (pieces.size() == 1)
             board.selectPiece(pieces.get(0));
         return board;

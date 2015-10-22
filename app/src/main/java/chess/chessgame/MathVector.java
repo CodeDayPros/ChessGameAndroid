@@ -1,14 +1,9 @@
 package chess.chessgame;
 
-public class MathVector {
+public class MathVector
+{
     private int x;
     private int y;
-
-    public MathVector()
-    {
-        x = 0;
-        y = 0;
-    }
 
     public MathVector(int x1, int y1)
     {
@@ -28,11 +23,11 @@ public class MathVector {
 
     public double magnitude()
     {
-        return Math.sqrt((double)x*x + y*y);
+        return Math.sqrt((double)x * x + y * y);
     }
 
     public int dotProduct(MathVector other)
     {
-        return x*other.getX() + y*other.getY();
+        return x * other.getX() + y * other.getY();
     }
 }

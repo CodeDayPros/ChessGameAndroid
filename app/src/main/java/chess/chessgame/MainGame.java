@@ -16,10 +16,10 @@ public class MainGame extends AndroidGame
     {
         Board board;
         LevelGenerator generator;
-        if (MainApplication.board != null && MainApplication.generator != null)
+        if (MainApplication.getBoard() != null && MainApplication.getGenerator() != null)
         {
-            board = MainApplication.board;
-            generator = MainApplication.generator;
+            board = MainApplication.getBoard();
+            generator = MainApplication.getGenerator();
         }
         else
         {
@@ -28,18 +28,18 @@ public class MainGame extends AndroidGame
         }
         gameScreen = new GameScreen(this, board, generator);
 
-        if (MainApplication.screenType == null)
-            MainApplication.screenType = MainApplication.LastScreenType.TITLE;
+        if (MainApplication.getScreenType() == null)
+            MainApplication.setScreenType(MainApplication.LastScreenType.TITLE);
 
-        if (MainApplication.screenType == MainApplication.LastScreenType.GAME)
+        if (MainApplication.getScreenType() == MainApplication.LastScreenType.GAME)
         {
             return gameScreen;
         }
-        else if (MainApplication.screenType == MainApplication.LastScreenType.LEVELSELECT)
+        else if (MainApplication.getScreenType() == MainApplication.LastScreenType.LEVELSELECT)
         {
             return new LevelSelectScreen(this, generator);
         }
-        else if (MainApplication.screenType == MainApplication.LastScreenType.TITLE)
+        else if (MainApplication.getScreenType() == MainApplication.LastScreenType.TITLE)
         {
             return new TitleScreen(this);
         }
@@ -54,15 +54,15 @@ public class MainGame extends AndroidGame
         if (screen instanceof GameScreen)
         {
             gameScreen = (GameScreen)screen;
-            MainApplication.screenType = MainApplication.LastScreenType.GAME;
+            MainApplication.setScreenType(MainApplication.LastScreenType.GAME);
         }
         else if (screen instanceof LevelSelectScreen)
         {
-            MainApplication.screenType = MainApplication.LastScreenType.LEVELSELECT;
+            MainApplication.setScreenType(MainApplication.LastScreenType.LEVELSELECT);
         }
         else if (screen instanceof TitleScreen)
         {
-            MainApplication.screenType = MainApplication.LastScreenType.TITLE;
+            MainApplication.setScreenType(MainApplication.LastScreenType.TITLE);
         }
     }
 
@@ -71,19 +71,20 @@ public class MainGame extends AndroidGame
     {
         super.onStop();
 
-        MainApplication.board = gameScreen.board;
-        MainApplication.generator = gameScreen.generator;
+        MainApplication.setBoard(gameScreen.getBoard());
+        MainApplication.setGenerator(gameScreen.getGenerator());
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putInt("lastUnlockedLevel", MainApplication.lastUnlockedLevel);
-        editor.commit();
+        editor.putInt("lastUnlockedLevel", MainApplication.getLastUnlockedLevel());
+        editor.apply();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        MainApplication.lastUnlockedLevel = settings.getInt("lastUnlockedLevel", 1);
+        MainApplication.setLastUnlockedLevel(settings.getInt("lastUnlockedLevel", 1));
     }
 }

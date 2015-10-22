@@ -5,44 +5,41 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 
-import com.gamedev.framework.Audio;
 import com.gamedev.framework.Game;
 import com.gamedev.framework.Graphics;
 import com.gamedev.framework.Input;
 import com.gamedev.framework.Screen;
-import com.gamedev.framework.Sound;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class TitleScreen extends Screen
 {
-    Graphics graphics;
-    ButtonType buttonType;
-    Typeface levelFont;
-    Map<ButtonType, Rect> buttonRectangles;
-    Paint paint;
-    Input input;
-    Audio audio;
-    int buttonTimer;
+    private Graphics graphics;
+    private ButtonType buttonType;
+    private Typeface levelFont;
+    private Map<ButtonType, Rect> buttonRectangles;
+    private Paint paint;
+    private Input input;
+    private int buttonTimer;
 
     private enum ButtonType
     {
         NEWGAME, LEVELSELECT, CONTINUE
     }
 
-    public TitleScreen(Game game) {
-
+    public TitleScreen(Game game)
+    {
         super(game);
         graphics = game.getGraphics();
         buttonRectangles = new HashMap();
         levelFont = Typeface.create("Arial", Typeface.BOLD);
         paint = new Paint();
         input = game.getInput();
-        audio = game.getAudio();
         buttonTimer = -1;
         initializeButtons();
     }
+
     @Override
     public void update(float deltaTime)
     {
@@ -64,7 +61,7 @@ public class TitleScreen extends Screen
                     game.setScreen(new LevelSelectScreen(this.game, generator));
                     break;
                 case CONTINUE:
-                    board = generator.getBoardForLevel(game.getGraphics(), MainApplication.lastUnlockedLevel);
+                    board = generator.getBoardForLevel(game.getGraphics(), MainApplication.getLastUnlockedLevel());
                     game.setScreen(new GameScreen(this.game, board, generator));
                     break;
             }
@@ -121,18 +118,18 @@ public class TitleScreen extends Screen
     }
 
     @Override
-    public void pause() {
-
+    public void pause()
+    {
     }
 
     @Override
-    public void resume() {
-
+    public void resume()
+    {
     }
 
     @Override
-    public void dispose() {
-
+    public void dispose()
+    {
     }
 
     @Override

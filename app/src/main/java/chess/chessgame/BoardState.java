@@ -1,5 +1,6 @@
 package chess.chessgame;
 
-public enum BoardState {
+public enum BoardState
+{
     NONE, WON, LOST
 }
