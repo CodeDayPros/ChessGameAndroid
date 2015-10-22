@@ -43,12 +43,10 @@ public class LevelSelectScreen extends Screen
 
     @Override
     public void update(float deltaTime) {
+        if (buttonTimer == 3)
+            PlaySounds.buttonSound(game.getAudio());
         if (buttonTimer > 0)
             buttonTimer--;
-        if (buttonTimer == 3)
-        {
-            PlaySounds.buttonSound(game.getAudio());
-        }
         else if (buttonTimer == 0)
         {
             Board board = generator.getBoardForLevel(game.getGraphics(), levelNum + 1);
