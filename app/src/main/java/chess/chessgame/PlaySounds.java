@@ -12,8 +12,7 @@ public class PlaySounds {
         public static void buttonSound(Game g)
         {
             audio= g.getAudio();
-            Sound s = audio.createSound("CH.mp3");
-            s.play(10);
+            playSound("CH.mp3");
         }
         public static void winSound(Game g)
         {
@@ -26,7 +25,12 @@ public class PlaySounds {
         public static void moveSound(Game g)
         {
             audio=g.getAudio();
-            Sound s= audio.createSound("move.mp3");
+            playSound("move.mp3");
+        }
+    
+        private static void playSound(String filename)
+        {
+            Sound s= audio.createSound(filename);
             s.play(10);
         }
 }
