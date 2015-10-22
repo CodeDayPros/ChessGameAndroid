@@ -50,8 +50,9 @@ public class TitleScreen extends Screen
 
         if (buttonTimer > 0)
             buttonTimer--;
-        if(buttonTimer==3) {
-            PlaySounds.buttonSound(game);
+        if (buttonTimer == 3)
+        {
+            PlaySounds.buttonSound(game.getAudio());
         }
         else if (buttonTimer == 0)
         {

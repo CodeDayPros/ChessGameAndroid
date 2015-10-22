@@ -4,33 +4,28 @@ import com.gamedev.framework.Audio;
 import com.gamedev.framework.Game;
 import com.gamedev.framework.Sound;
 
-/**
- * Created by Home on 10/22/2015.
- */
-public class PlaySounds {
-        private static Audio audio;
-        public static void buttonSound(Game g)
+public class PlaySounds
+{
+        public static void buttonSound(Audio audio)
         {
-            audio= g.getAudio();
-            playSound("CH.mp3");
+            playSound("CH.mp3", audio);
         }
-        public static void winSound(Game g)
+        public static void winSound(Audio audio)
         {
 
         }
-        public static void loseSound(Game g)
+        public static void loseSound(Audio audio)
         {
 
         }
-        public static void moveSound(Game g)
+        public static void moveSound(Audio audio)
         {
-            audio=g.getAudio();
-            playSound("move.mp3");
+            playSound("move.mp3", audio);
         }
     
-        private static void playSound(String filename)
+        private static void playSound(String filename, Audio audio)
         {
-            Sound s= audio.createSound(filename);
+            Sound s = audio.createSound(filename);
             s.play(10);
         }
 }

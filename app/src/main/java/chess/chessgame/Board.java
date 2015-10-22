@@ -3,7 +3,7 @@ package chess.chessgame;
 import android.graphics.Paint;
 import android.graphics.Point;
 
-import com.gamedev.framework.Game;
+import com.gamedev.framework.Audio;
 import com.gamedev.framework.Graphics;
 
 import java.util.ArrayList;
@@ -96,12 +96,18 @@ public class Board {
         possibleMovementLocations = getPossibleLocations(selectedPiece);
     }
 
-    private void updateWinLoss()
+    private void updateWinLoss(Audio audio)
     {
         if (checkWin())
+        {
             state = BoardState.WON;
+            PlaySounds.winSound(audio);
+        }
         else if (checkLoss())
+        {
             state = BoardState.LOST;
+            PlaySounds.loseSound(audio);
+        }
     }
 
     private boolean checkWin()
@@ -219,7 +225,7 @@ public class Board {
         }
     }
 
-    public void clickOnBoard(int x, int y, int offsetX, int offsetY, Game game)
+    public void clickOnBoard(int x, int y, int offsetX, int offsetY, Audio audio)
     {
         if (state == BoardState.NONE && animationTimer == -1)
         {
@@ -242,8 +248,8 @@ public class Board {
                         selectedPiece.setPos(gridX, gridY);
                         setValue(gridX, gridY, getValue(gridX, gridY) - 1);
                         updatePossibleLocations();
-                        PlaySounds.moveSound(game);
-                        updateWinLoss();
+                        PlaySounds.moveSound(audio);
+                        updateWinLoss(audio);
                         return;
                     }
                 }

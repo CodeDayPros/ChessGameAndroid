@@ -45,8 +45,9 @@ public class LevelSelectScreen extends Screen
     public void update(float deltaTime) {
         if (buttonTimer > 0)
             buttonTimer--;
-        if(buttonTimer==3) {
-            PlaySounds.buttonSound(game);
+        if (buttonTimer == 3)
+        {
+            PlaySounds.buttonSound(game.getAudio());
         }
         else if (buttonTimer == 0)
         {

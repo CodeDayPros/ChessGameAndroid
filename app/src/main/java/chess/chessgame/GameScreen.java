@@ -53,8 +53,9 @@ public class GameScreen extends Screen
     public void update(float deltaTime) {
         if (buttonTimer > 0)
             buttonTimer--;
-        if(buttonTimer==3) {
-            PlaySounds.buttonSound(game);
+        if(buttonTimer == 3)
+        {
+            PlaySounds.buttonSound(game.getAudio());
         }
         else if (buttonTimer == 0)
         {
@@ -82,7 +83,8 @@ public class GameScreen extends Screen
         {
             int x = input.getTouchX(0);
             int y = input.getTouchY(0);
-            for ( Map.Entry<ButtonType, Rect> entry : buttonRectangles.entrySet() ) {
+            for ( Map.Entry<ButtonType, Rect> entry : buttonRectangles.entrySet() )
+            {
                 Rect buttonRect = entry.getValue();
                 if (buttonRect.contains(x, y))
                 {
@@ -97,8 +99,7 @@ public class GameScreen extends Screen
                     }
                 }
             }
-            board.clickOnBoard(x, y, getOffsetX(), getOffsetY(), game);
-
+            board.clickOnBoard(x, y, getOffsetX(), getOffsetY(), game.getAudio());
         }
     }
 
