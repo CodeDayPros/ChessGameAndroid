@@ -519,12 +519,16 @@ public class LevelGenerator
     public Board nextLevel(Graphics g)
     {
         currentLevel++;
-        if (currentLevel > MainApplication.lastUnlockedLevel)
-            MainApplication.lastUnlockedLevel = currentLevel;
         return generateLevel(g);
     }
 
-    public void setLevel(int level)
+    public Board getBoardForLevel(Graphics g, int level)
+    {
+        setLevel(level - 1);
+        return nextLevel(g);
+    }
+
+    private void setLevel(int level)
     {
         currentLevel = level;
     }
@@ -542,12 +546,6 @@ public class LevelGenerator
     public int getCurrentLevel()
     {
         return currentLevel;
-    }
-
-    public void resetGame()
-    {
-        board = null;
-        currentLevel = 0;
     }
 
     private Board generateLevel(Graphics g)

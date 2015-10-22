@@ -75,6 +75,7 @@ public class GameScreen extends Screen
             buttonTimer = -1;
         }
         handleClick();
+        updateLastUnlockedLevel();
     }
 
     private void handleClick()
@@ -103,6 +104,15 @@ public class GameScreen extends Screen
         }
     }
 
+    private void updateLastUnlockedLevel()
+    {
+        if (board.getState() == BoardState.WON)
+        {
+            int nextLevel = generator.getCurrentLevel() + 1;
+            if (nextLevel > MainApplication.lastUnlockedLevel)
+                MainApplication.lastUnlockedLevel = nextLevel;
+        }
+    }
     @Override
     public void paint(float deltaTime)
     {

@@ -68,8 +68,7 @@ public class TitleScreen extends Screen
                     game.setScreen(new LevelSelectScreen(this.game, generator));
                     break;
                 case CONTINUE:
-                    generator.setLevel(MainApplication.lastUnlockedLevel - 1);
-                    board = generator.nextLevel(game.getGraphics());
+                    board = generator.getBoardForLevel(game.getGraphics(), MainApplication.lastUnlockedLevel);
                     game.setScreen(new GameScreen(this.game, board, generator));
                     break;
             }
