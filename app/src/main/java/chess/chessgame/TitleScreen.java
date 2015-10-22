@@ -28,7 +28,7 @@ public class TitleScreen extends Screen
 
     private enum ButtonType
     {
-        NEWGAME, LEVELSELECT, CONTINUE
+        NEWGAME, LEVELSELECT, CONTINUE, LEVELMAKER
     }
 
     public TitleScreen(Game game) {
@@ -48,11 +48,10 @@ public class TitleScreen extends Screen
     {
 
 
-        if (buttonTimer > 0)
-            buttonTimer--;
-        if(buttonTimer==3) {
+        if(buttonTimer==3)
             PlaySounds.buttonSound(game);
-        }
+        if(buttonTimer>0)
+            buttonTimer--;
         else if (buttonTimer == 0)
         {
             LevelGenerator generator = new LevelGenerator();
@@ -70,6 +69,9 @@ public class TitleScreen extends Screen
                     generator.setLevel(MainApplication.lastUnlockedLevel - 1);
                     board = generator.nextLevel(game.getGraphics());
                     game.setScreen(new GameScreen(this.game, board, generator));
+                    break;
+                case LEVELMAKER:
+                    game.setScreen(new LevelMakerScreen(game));
                     break;
             }
             buttonTimer = -1;
@@ -97,9 +99,10 @@ public class TitleScreen extends Screen
 
    private void initializeButtons()
    {
-       buttonRectangles.put(ButtonType.NEWGAME, new Rect(getOffsetX() + 240, getOffsetY() + 450, getOffsetX() + 560, getOffsetY() + 540));
-       buttonRectangles.put(ButtonType.CONTINUE, new Rect(getOffsetX() + 240, getOffsetY() + 550, getOffsetX() + 560, getOffsetY() + 640));
-       buttonRectangles.put(ButtonType.LEVELSELECT, new Rect(getOffsetX() + 240, getOffsetY() + 650, getOffsetX() + 560, getOffsetY() + 740));
+       buttonRectangles.put(ButtonType.NEWGAME, new Rect(getOffsetX() + 240, getOffsetY() + 350, getOffsetX() + 560, getOffsetY() + 440));
+       buttonRectangles.put(ButtonType.CONTINUE, new Rect(getOffsetX() + 240, getOffsetY() + 450, getOffsetX() + 560, getOffsetY() + 540));
+       buttonRectangles.put(ButtonType.LEVELSELECT, new Rect(getOffsetX() + 240, getOffsetY() + 550, getOffsetX() + 560, getOffsetY() + 640));
+       buttonRectangles.put(ButtonType.LEVELMAKER, new Rect(getOffsetX() + 240, getOffsetY() + 650, getOffsetX() + 560, getOffsetY() + 740));
    }
 
     @Override
@@ -112,6 +115,7 @@ public class TitleScreen extends Screen
         drawButton(ButtonType.NEWGAME, "New Game");
         drawButton(ButtonType.CONTINUE, "Continue");
         drawButton(ButtonType.LEVELSELECT, "Select Level");
+        drawButton(ButtonType.LEVELMAKER, "Create Level");
     }
 
     private void drawButton(ButtonType type, String buttonName)

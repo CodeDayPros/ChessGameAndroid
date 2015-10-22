@@ -51,11 +51,10 @@ public class GameScreen extends Screen
 
     @Override
     public void update(float deltaTime) {
-        if (buttonTimer > 0)
-            buttonTimer--;
-        if(buttonTimer==3) {
+        if(buttonTimer==3)
             PlaySounds.buttonSound(game);
-        }
+        if(buttonTimer>0)
+            buttonTimer--;
         else if (buttonTimer == 0)
         {
             switch(buttonType)

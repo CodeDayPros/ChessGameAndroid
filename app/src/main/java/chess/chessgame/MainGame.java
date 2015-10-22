@@ -43,6 +43,10 @@ public class MainGame extends AndroidGame
         {
             return new TitleScreen(this);
         }
+        else if (MainApplication.screenType == MainApplication.LastScreenType.LEVELMAKER)
+        {
+            return new LevelMakerScreen(this);
+        }
         return null;
     }
 
@@ -63,6 +67,9 @@ public class MainGame extends AndroidGame
         else if (screen instanceof TitleScreen)
         {
             MainApplication.screenType = MainApplication.LastScreenType.TITLE;
+        }
+        else if(screen instanceof LevelMakerScreen) {
+            MainApplication.screenType = MainApplication.LastScreenType.LEVELMAKER;
         }
     }
 

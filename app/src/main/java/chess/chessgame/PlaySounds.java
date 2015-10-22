@@ -27,7 +27,7 @@ public class PlaySounds {
             audio=g.getAudio();
             playSound("move.mp3");
         }
-    
+
         private static void playSound(String filename)
         {
             Sound s= audio.createSound(filename);

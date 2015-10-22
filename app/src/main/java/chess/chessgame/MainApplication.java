@@ -10,6 +10,6 @@ public class MainApplication extends Application {
 
     public enum LastScreenType
     {
-        GAME, TITLE, LEVELSELECT
+        GAME, TITLE, LEVELSELECT, LEVELMAKER
     }
 }
