@@ -6,10 +6,12 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.widget.Button;
 
+import com.gamedev.framework.Audio;
 import com.gamedev.framework.Game;
 import com.gamedev.framework.Graphics;
 import com.gamedev.framework.Input;
 import com.gamedev.framework.Screen;
+import com.gamedev.framework.Sound;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +23,7 @@ public class GameScreen extends Screen
     LevelGenerator generator;
     Graphics graphics;
     Input input;
+    Audio audio;
     Typeface levelFont;
     int buttonTimer;
     ButtonType buttonType;
@@ -41,6 +44,7 @@ public class GameScreen extends Screen
         input = game.getInput();
         levelFont = Typeface.create("Arial", Typeface.BOLD);
         buttonTimer = -1;
+        audio= game.getAudio();
         buttonRectangles = new HashMap();
         initializeButtons();
     }
@@ -87,10 +91,13 @@ public class GameScreen extends Screen
                     {
                         buttonType = type;
                         buttonTimer = 4;
+                        Sound s = audio.createSound("CH.mp3");
+                        s.play(10);
                     }
                 }
             }
             board.clickOnBoard(x, y, getOffsetX(), getOffsetY());
+
         }
     }
 

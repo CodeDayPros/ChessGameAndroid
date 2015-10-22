@@ -5,10 +5,12 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 
+import com.gamedev.framework.Audio;
 import com.gamedev.framework.Game;
 import com.gamedev.framework.Graphics;
 import com.gamedev.framework.Input;
 import com.gamedev.framework.Screen;
+import com.gamedev.framework.Sound;
 
 import java.util.ArrayList;
 
@@ -17,6 +19,7 @@ public class LevelSelectScreen extends Screen
     Paint paint;
     Graphics graphics;
     Input input;
+    Audio audio;
     Typeface levelFont;
     int buttonTimer;
     int levelNum;
@@ -29,6 +32,7 @@ public class LevelSelectScreen extends Screen
         graphics=game.getGraphics();
         paint = new Paint();
         input = game.getInput();
+        audio = game.getAudio();
         levelFont = Typeface.create("Arial", Typeface.BOLD);
         buttonTimer = -1;
         levelNum = -1;
@@ -66,6 +70,8 @@ public class LevelSelectScreen extends Screen
                 {
                     levelNum = levelRectangles.indexOf(rect);
                     buttonTimer = 4;
+                    Sound s = audio.createSound("CH.mp3");
+                    s.play(10);
                 }
             }
         }
