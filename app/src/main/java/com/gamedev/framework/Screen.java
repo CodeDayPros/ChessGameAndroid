@@ -1,5 +1,8 @@
 package com.gamedev.framework;
 
+import android.graphics.Color;
+import android.graphics.Paint;
+
 public abstract class Screen {
     protected final Game game;
 
@@ -30,6 +33,12 @@ public abstract class Screen {
     protected int getOffsetY()
     {
         return game.isPortrait() ? (game.getHeight() - 800) / 2 : 0;
+    }
+
+    protected void drawBackground()
+    {
+        Graphics graphics = game.getGraphics();
+        graphics.drawRect(0, 0, game.getWidth() + 1, game.getHeight() + 1, Color.rgb(50, 50, 50), Paint.Style.FILL); //clear window
     }
 }
 

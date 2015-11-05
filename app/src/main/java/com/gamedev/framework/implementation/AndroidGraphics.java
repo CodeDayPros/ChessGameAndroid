@@ -9,9 +9,11 @@ import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
+import android.graphics.Shader;
 
 import com.gamedev.framework.Graphics;
 import com.gamedev.framework.Image;
@@ -83,15 +85,33 @@ public class AndroidGraphics implements Graphics {
 
     @Override
     public void drawLine(int x, int y, int x2, int y2, int color) {
-        paint.setColor(color);
+        if (color != 0)
+        {
+            clearGradient();
+            paint.setColor(color);
+        }
         canvas.drawLine(x, y, x2, y2, paint);
     }
 
     @Override
     public void drawRect(int x, int y, int width, int height, int color, Style style) {
-        paint.setColor(color);
+        if (color != 0)
+        {
+            clearGradient();
+            paint.setColor(color);
+        }
         paint.setStyle(style);
         canvas.drawRect(x, y, x + width - 1, y + height - 1, paint);
+    }
+
+    public void setGradient(int x1, int y1, int x2, int y2, int color1, int color2)
+    {
+        paint.setShader(new LinearGradient(x1, y1, x2, y2, color1, color2, Shader.TileMode.CLAMP));
+    }
+
+    private void clearGradient()
+    {
+        paint.setShader(null);
     }
 
     public void drawRect(Rect rect, int color, Style style)

@@ -18,6 +18,8 @@ public interface Graphics {
 
     public void drawRect(Rect rect, int color, Paint.Style style);
 
+    public void setGradient(int x1, int y1, int x2, int y2, int color1, int color2);
+
     public void drawImage(Image image, int x, int y, int srcX, int srcY,
                           int srcWidth, int srcHeight);
 

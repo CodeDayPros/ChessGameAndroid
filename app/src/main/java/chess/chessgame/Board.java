@@ -1,5 +1,6 @@
 package chess.chessgame;
 
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 
@@ -151,6 +152,8 @@ public class Board
             for (int y = 0; y < 8; y++)
             {
                 int valueAtPosition = getValue(x, y);
+                int xCoord = x * 100 + offsetX;
+                int yCoord = y * 100 + offsetY;
                 if (valueAtPosition == 0)
                 {
                     if ((x + y) % 2 == 0)
@@ -159,13 +162,13 @@ public class Board
                         paint.setARGB(255, 120, 120, 120);
                 }
                 else if (valueAtPosition == 1)
-                    paint.setARGB(255, 255, 0, 0);
+                    g.setGradient(xCoord, yCoord, xCoord + 100, yCoord + 100, Color.rgb(255, 0, 0), Color.rgb(160, 20, 20));
                 else if (valueAtPosition == 2)
-                    paint.setARGB(255, 225, 0, 225);
+                    g.setGradient(xCoord, yCoord, xCoord + 100, yCoord + 100, Color.rgb(0, 0, 255), Color.rgb(20, 20, 160));
 
-                g.drawRect(x * 100 + offsetX, y * 100 + offsetY, 100, 100, paint.getColor(), Paint.Style.FILL);
+                g.drawRect(xCoord, yCoord, 100, 100, valueAtPosition == 0 ? paint.getColor() : 0, Paint.Style.FILL);
                 paint.setARGB(255, 0, 0, 0);
-                g.drawRect(x * 100 + offsetX, y * 100 + offsetY, 100, 100, paint.getColor(), Paint.Style.STROKE);
+                g.drawRect(xCoord, yCoord, 100, 100, paint.getColor(), Paint.Style.STROKE);
             }
         }
 

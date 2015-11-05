@@ -98,7 +98,7 @@ public class TitleScreen extends Screen
     @Override
     public void paint(float deltaTime)
     {
-        graphics.drawRect(0, 0, game.getWidth() + 1, game.getHeight() + 1, Color.BLACK, Paint.Style.FILL);
+        drawBackground();
         paint.setTypeface(levelFont);
         paint.setTextSize(50);
         paint.setTextAlign(Paint.Align.CENTER);
