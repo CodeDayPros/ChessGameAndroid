@@ -61,6 +61,7 @@ public class GameScreen extends Screen
                     break;
                 case NEXT:
                     MainGame.setLevel(game, generator, generator.getCurrentLevel() + 1);
+                    break;
                 case LEVELSELECT:
                     game.setScreen(new LevelSelectScreen(game, generator));
                     break;
