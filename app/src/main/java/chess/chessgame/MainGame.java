@@ -3,6 +3,7 @@ package chess.chessgame;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.gamedev.framework.Game;
 import com.gamedev.framework.Screen;
 import com.gamedev.framework.implementation.AndroidGame;
 
@@ -86,5 +87,16 @@ public class MainGame extends AndroidGame
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         MainApplication.setLastUnlockedLevel(settings.getInt("lastUnlockedLevel", 1));
+    }
+
+    public static void setLevel(Game game, LevelGenerator generator, int levelNum)
+    {
+        if (InstructionsScreen.levelHasInstructions(levelNum))
+            game.setScreen(new InstructionsScreen(game, generator));
+        else
+        {
+            Board board = generator.getBoardForLevel(game.getGraphics(), levelNum);
+            game.setScreen(new GameScreen(game, board, generator));
+        }
     }
 }

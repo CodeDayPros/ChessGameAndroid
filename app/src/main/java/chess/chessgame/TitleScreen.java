@@ -54,15 +54,13 @@ public class TitleScreen extends Screen
             switch (buttonType)
             {
                 case NEWGAME:
-                    board = generator.nextLevel(game.getGraphics());
-                    game.setScreen(new GameScreen(this.game, board, generator));
+                    MainGame.setLevel(game, generator, generator.getCurrentLevel() + 1);
                     break;
                 case LEVELSELECT:
                     game.setScreen(new LevelSelectScreen(this.game, generator));
                     break;
                 case CONTINUE:
-                    board = generator.getBoardForLevel(game.getGraphics(), MainApplication.getLastUnlockedLevel());
-                    game.setScreen(new GameScreen(this.game, board, generator));
+                    MainGame.setLevel(game, generator, MainApplication.getLastUnlockedLevel());
                     break;
             }
             buttonTimer = -1;
@@ -114,7 +112,7 @@ public class TitleScreen extends Screen
             paint.setColor(Color.RED);
         Rect rect = buttonRectangles.get(type);
         graphics.drawString(buttonName, rect.centerX(), rect.centerY() + 20, paint);
-        graphics.drawRect(buttonRectangles.get(type), paint.getColor(), Paint.Style.STROKE);
+        graphics.drawRect(rect, paint.getColor(), Paint.Style.STROKE);
     }
 
     @Override

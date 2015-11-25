@@ -60,8 +60,7 @@ public class GameScreen extends Screen
                     board = generator.restartLevel(graphics);
                     break;
                 case NEXT:
-                    board = generator.nextLevel(graphics);
-                    break;
+                    MainGame.setLevel(game, generator, generator.getCurrentLevel() + 1);
                 case LEVELSELECT:
                     game.setScreen(new LevelSelectScreen(game, generator));
                     break;
@@ -168,7 +167,7 @@ public class GameScreen extends Screen
             paint.setColor(Color.RED);
         Rect rect = buttonRectangles.get(type);
         graphics.drawString(buttonName, rect.centerX(), rect.centerY() + 20, paint);
-        graphics.drawRect(buttonRectangles.get(type), paint.getColor(), Paint.Style.STROKE);
+        graphics.drawRect(rect, paint.getColor(), Paint.Style.STROKE);
     }
 
     @Override

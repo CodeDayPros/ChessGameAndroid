@@ -46,8 +46,7 @@ public class LevelSelectScreen extends Screen
             buttonTimer--;
         else if (buttonTimer == 0)
         {
-            Board board = generator.getBoardForLevel(game.getGraphics(), levelNum + 1);
-            game.setScreen(new GameScreen(game, board, generator));
+            MainGame.setLevel(game, generator, levelNum + 1);
             buttonTimer = -1;
         }
         handleClick();
